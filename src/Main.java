@@ -12,7 +12,7 @@ public class Main {
 
         int rows, columns, noVehicles, noRides, bonus, steps;
         int[] aux;
-        //List<Ride> rides = new ArrayList<>();
+        List<Ride> rides = new ArrayList<>();
 
         try {
             BufferedReader br = new BufferedReader(new FileReader("a_example.in"));
@@ -30,16 +30,16 @@ public class Main {
             bonus = aux[4];
             steps = aux[5];
 
-            /*for (int i = 0; i < noRides; ++i) {
+            for (int i = 0; i < noRides; ++i) {
                 line = br.readLine();
                 strs = line.trim().split("\\s+");
                 Ride ride = new Ride(new Point(Integer.parseInt(strs[1]),
                                         Integer.parseInt(strs[0])),
                                         new Point(Integer.parseInt(strs[3]),
                                                 Integer.parseInt(strs[2])),
-                        Integer.parseInt(strs[4]), Integer.parseInt(strs[5]))0
+                        Integer.parseInt(strs[4]), Integer.parseInt(strs[5]));
                 rides.add(ride);
-            }*/
+            }
 
             System.out.printf("%d\n", rows);
             System.out.printf("%d\n", columns);
@@ -48,7 +48,13 @@ public class Main {
             System.out.printf("%d\n", bonus);
             System.out.printf("%d\n", steps);
 
-
+            for (int i = 0; i < rides.size(); ++i) {
+                System.out.printf("\n%d\n", i);
+                System.out.printf(rides.get(i).from.toString());
+                System.out.printf(rides.get(i).to.toString());
+                System.out.printf("%d\n", rides.get(i).start);
+                System.out.printf("%d\n", rides.get(i).finish);
+            }
         } finally {}
     }
 }

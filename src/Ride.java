@@ -13,4 +13,11 @@ public class Ride {
         this.start = start;
         this.finish = finish;
     }
+
+    public Ride(Point from, Point to, int start, int finish) {
+        this.from = from;
+        this.to = to;
+        this.start = start;
+        this.finish = finish;
+    }
 }
