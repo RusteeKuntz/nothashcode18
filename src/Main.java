@@ -3,16 +3,19 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        int rows, columns, vehicles, rides, bonus, steps;
+        int rows, columns, noVehicles, noRides, bonus, steps;
         int[] aux;
+        //List<Ride> rides = new ArrayList<>();
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader("input.in"));
+            BufferedReader br = new BufferedReader(new FileReader("a_example.in"));
             String line = br.readLine();
 
             String[] strs = line.trim().split("\\s+");
@@ -22,16 +25,28 @@ public class Main {
             }
             rows = aux[0];
             columns = aux[1];
-            vehicles = aux[2];
-            rides = aux[3];
+            noVehicles = aux[2];
+            noRides = aux[3];
             bonus = aux[4];
             steps = aux[5];
 
-
-            /*while (fileRead != null) {
-
+            /*for (int i = 0; i < noRides; ++i) {
+                line = br.readLine();
+                strs = line.trim().split("\\s+");
+                Ride ride = new Ride(new Point(Integer.parseInt(strs[1]),
+                                        Integer.parseInt(strs[0])),
+                                        new Point(Integer.parseInt(strs[3]),
+                                                Integer.parseInt(strs[2])),
+                        Integer.parseInt(strs[4]), Integer.parseInt(strs[5]))0
+                rides.add(ride);
             }*/
 
+            System.out.printf("%d\n", rows);
+            System.out.printf("%d\n", columns);
+            System.out.printf("%d\n", noVehicles);
+            System.out.printf("%d\n", noRides);
+            System.out.printf("%d\n", bonus);
+            System.out.printf("%d\n", steps);
 
 
         } finally {}
