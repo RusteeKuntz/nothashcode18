@@ -77,10 +77,10 @@ public class Main {
             }
 
         for(int i = 0; i < steps; ++i) {
-            rides = clearedRides(i, rides, positions, noVehicles, steps, occupied);
+            //rides = clearedRides(i, rides, positions, noVehicles, steps, occupied);
             for (int j = 0; j < rides.size(); ++j) {
                 int closest = getClosest(rides.get(j).getFrom(), positions, occupied).getKey();
-                if (occupied.get(closest) == -1) {
+                if (closest != -1 && occupied.get(closest) == -1) {
                     occupied.set(closest, positions.get(closest).getDistance(rides.get(j).getFrom())
                             + rides.get(j).getFrom().getDistance(rides.get(j).getTo()));
                     vehRides.get(closest).add(rides.get(j).id);
@@ -121,7 +121,7 @@ public class Main {
         List<Ride> ret = new ArrayList<>();
         for (Ride r : rides) {
                 for (int i = 0; i < veh; ++i) {
-                    int aux = r.getFrom().getDistance(pos.get(getClosest(r.getFrom(), pos, occ).getValue()))
+                    int aux = r.getFrom().getDistance(pos.get(getClosest(r.getFrom(), pos, occ).getKey()))
                             + r.getFrom().getDistance(r.getTo()) + step;
                     if (aux <= r.getFinish() || aux <= last) {
                         ret.add(r);
