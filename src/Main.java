@@ -1,3 +1,4 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.util.Pair;
 
 import java.io.BufferedReader;
@@ -21,7 +22,7 @@ public class Main {
         try {
             BufferedReader br = new BufferedReader(new FileReader("a_example.in"));
             String line = br.readLine();
-            List<Point> positions = new ArrayList<>();
+            List<Point> positions;
             String[] strs = line.trim().split("\\s+");
             aux = new int[strs.length];
             for (int i = 0; i < strs.length; i++) {
@@ -59,22 +60,47 @@ public class Main {
                 System.out.printf("%d\n", rides.get(i).start);
                 System.out.printf("%d\n", rides.get(i).finish);
             }
-        } finally {}
 
-        List<Point> positions = new ArrayList<>();
+        positions = new ArrayList<>();
         for (int i = 0; i < noVehicles; ++i) {
             positions.add(new Point(0, 0));
         }
 
+        List<Integer> occupied = new ArrayList<>();
+        for (int i = 0; i < noVehicles; ++i) {
+            occupied.add(-1);
+        }
+
         List<List<Integer>> vehRides = new ArrayList<>();
+            for (int i = 0; i < noVehicles; ++i) {
+                vehRides.add(new ArrayList<Integer>());
+            }
 
         for(int i = 0; i < steps; ++i) {
             rides = clearedRides(i, rides, positions, noVehicles, steps);
+            for (int j = 0; j < rides.size(); ++j) {
+                int closest = getClosest(rides.get(j).getFrom(), positions).getKey();
+                if (occupied.get(closest) != -1) {
+                    occupied.set(closest, positions.get(closest).getDistance(rides.get(j).getFrom())
+                            + rides.get(j).getFrom().getDistance(rides.get(j).getTo()));
+                    vehRides.get(closest).add(j);
+                    rides.remove(j);
+                }
 
+            }
         }
 
+        for (int i = 0; i < noVehicles; ++i) {
+            System.out.printf("%d", vehRides.get(i).size());
+            for (Integer r : vehRides.get(i)) {
+                System.out.printf(" %d", r);
+            }
+            System.out.println();
+        }
 
+        } finally {}
     }
+
 
     public static Pair<Integer, Integer> getClosest(Point a, List<Point> pos) {
         int max = -1;
@@ -97,9 +123,23 @@ public class Main {
                             + r.getFrom().getDistance(r.getTo()) + step;
                     if (aux <= r.getFinish() || aux <= last) {
                         ret.add(r);
+                        break;
                     }
                 }
             }
         return ret;
+        }
+
+        public static Point move(Point start, Point goal) {
+            if(start.getX() < goal.getX()) {
+                return new Point(start.getX() + 1, start.getY());
+            } else if (start.getX() > goal.getX()) {
+                return new Point(start.getX() - 1, start.getY());
+            } else if (start.getY() < goal.getY()){
+                return new Point(start.getX(), start.getY() + 1);
+            } else if (start.getY() > goal.getY()) {
+                return new Point(start.getX(), start.getY() - 1);
+            }
+            return start;
         }
 }
