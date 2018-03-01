@@ -1,3 +1,5 @@
+import javafx.util.Pair;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -64,12 +66,17 @@ public class Main {
             positions.add(new Point(0, 0));
         }
 
+        List<List<Integer>> vehRides = new ArrayList<>();
 
+        for(int i = 0; i < steps; ++i) {
+            rides = clearedRides(i, rides, positions, noVehicles, steps);
+
+        }
 
 
     }
 
-    public int getClosest(Point a, List<Point> pos) {
+    public static Pair<Integer, Integer> getClosest(Point a, List<Point> pos) {
         int max = -1;
         int maxDist = Integer.MAX_VALUE;
         for (int i = 0; i < pos.size(); ++i) {
@@ -77,8 +84,22 @@ public class Main {
                 maxDist = a.getDistance(pos.get(i));
                 max = i;
             }
-            return max;
         }
+        return new Pair<>(max, maxDist);
+    }
 
-    private clearRides(int step, int)
+
+    public static List<Ride> clearedRides(int step, List<Ride> rides, List<Point> pos, int veh, int last) {
+        List<Ride> ret = new ArrayList<>();
+        for (Ride r : rides) {
+                for (int i = 0; i < veh; ++i) {
+                    int aux = r.getFrom().getDistance(pos.get(getClosest(r.getFrom(), pos).getKey()))
+                            + r.getFrom().getDistance(r.getTo()) + step;
+                    if (aux <= r.getFinish() || aux <= last) {
+                        ret.add(r);
+                    }
+                }
+            }
+        return ret;
+        }
 }
