@@ -77,16 +77,18 @@ public class Main {
             }
 
         for(int i = 0; i < steps; ++i) {
-            rides = clearedRides(i, rides, positions, noVehicles, steps);
+            rides = clearedRides(i, rides, positions, noVehicles, steps, occupied);
             for (int j = 0; j < rides.size(); ++j) {
-                int closest = getClosest(rides.get(j).getFrom(), positions).getKey();
-                if (occupied.get(closest) != -1) {
+                int closest = getClosest(rides.get(j).getFrom(), positions, occupied).getKey();
+                if (occupied.get(closest) == -1) {
                     occupied.set(closest, positions.get(closest).getDistance(rides.get(j).getFrom())
                             + rides.get(j).getFrom().getDistance(rides.get(j).getTo()));
-                    vehRides.get(closest).add(j);
+                    vehRides.get(closest).add(rides.get(j).id);
                     rides.remove(j);
                 }
-
+            for (int o : occupied) {
+                if(o > -1) o--;
+            }
             }
         }
 
@@ -102,11 +104,11 @@ public class Main {
     }
 
 
-    public static Pair<Integer, Integer> getClosest(Point a, List<Point> pos) {
+    public static Pair<Integer, Integer> getClosest(Point a, List<Point> pos, List<Integer> occ) {
         int max = -1;
         int maxDist = Integer.MAX_VALUE;
         for (int i = 0; i < pos.size(); ++i) {
-            if (a.getDistance(pos.get(i)) < maxDist) {
+            if (a.getDistance(pos.get(i)) < maxDist && occ.get(i) == -1) {
                 maxDist = a.getDistance(pos.get(i));
                 max = i;
             }
@@ -115,11 +117,11 @@ public class Main {
     }
 
 
-    public static List<Ride> clearedRides(int step, List<Ride> rides, List<Point> pos, int veh, int last) {
+    public static List<Ride> clearedRides(int step, List<Ride> rides, List<Point> pos, int veh, int last, List<Integer> occ) {
         List<Ride> ret = new ArrayList<>();
         for (Ride r : rides) {
                 for (int i = 0; i < veh; ++i) {
-                    int aux = r.getFrom().getDistance(pos.get(getClosest(r.getFrom(), pos).getKey()))
+                    int aux = r.getFrom().getDistance(pos.get(getClosest(r.getFrom(), pos, occ).getValue()))
                             + r.getFrom().getDistance(r.getTo()) + step;
                     if (aux <= r.getFinish() || aux <= last) {
                         ret.add(r);

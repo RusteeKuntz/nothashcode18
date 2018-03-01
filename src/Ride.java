@@ -2,7 +2,7 @@
  * Created by Dominik on 01/03/2018.
  */
 public class Ride {
-    int id;
+    public int id;
     Point from;
     Point to;
     int start;
