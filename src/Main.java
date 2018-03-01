@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class Main {
 
     public static void main(String[] args) throws IOException {
@@ -17,7 +19,7 @@ public class Main {
         try {
             BufferedReader br = new BufferedReader(new FileReader("a_example.in"));
             String line = br.readLine();
-
+            List<Point> positions = new ArrayList<>();
             String[] strs = line.trim().split("\\s+");
             aux = new int[strs.length];
             for (int i = 0; i < strs.length; i++) {
@@ -33,7 +35,7 @@ public class Main {
             for (int i = 0; i < noRides; ++i) {
                 line = br.readLine();
                 strs = line.trim().split("\\s+");
-                Ride ride = new Ride(new Point(Integer.parseInt(strs[1]),
+                Ride ride = new Ride(i, new Point(Integer.parseInt(strs[1]),
                                         Integer.parseInt(strs[0])),
                                         new Point(Integer.parseInt(strs[3]),
                                                 Integer.parseInt(strs[2])),
@@ -56,5 +58,27 @@ public class Main {
                 System.out.printf("%d\n", rides.get(i).finish);
             }
         } finally {}
+
+        List<Point> positions = new ArrayList<>();
+        for (int i = 0; i < noVehicles; ++i) {
+            positions.add(new Point(0, 0));
+        }
+
+
+
+
     }
+
+    public int getClosest(Point a, List<Point> pos) {
+        int max = -1;
+        int maxDist = Integer.MAX_VALUE;
+        for (int i = 0; i < pos.size(); ++i) {
+            if (a.getDistance(pos.get(i)) < maxDist) {
+                maxDist = a.getDistance(pos.get(i));
+                max = i;
+            }
+            return max;
+        }
+
+    private clearRides(int step, int)
 }

@@ -10,6 +10,22 @@ public class Point {
         this.y = y;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getDistance(Point a) {
+        return Math.abs(a.getX() - x) +  Math.abs(a.getY() - y);
+    }
+
+    public static int getDistance(Point a, Point b) {
+        return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() + b.getY());
+    }
+
     @Override
     public String toString() {
         return "Point{" +
